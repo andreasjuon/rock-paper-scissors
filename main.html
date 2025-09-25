@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Andreas' New and Improved Rock-Paper-Scissors Game (see Console)</title>
-
-    <script src="game_logic.js"></script>
 </head>
 <body>
     
+    <div id="choiceMenu">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+
+    <div id="currentRound">
+        <p>Play a round to see the choices and current score board!</p>
+    </div>
+
+    <div id="scoreBoard">
+        <ul>
+            <li id="humanScore"> Human Score:</li>
+            <li id="computerScore"> Computer Score:</li>
+        </ul>
+    </div>
+
+    <script src="game_logic.js"></script>
 </body>
 </html>

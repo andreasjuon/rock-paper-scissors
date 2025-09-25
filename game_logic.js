@@ -1,3 +1,13 @@
+let choiceMenu = document.querySelector("#choiceMenu");
+let currentRound = document.querySelector("#currentRound p")
+
+/* Initialize scores */
+let humanScore = 0
+let computerScore = 0
+
+/* Ask how many games user wants to play */
+numberGamesToPlay = prompt("How many games do you want to play? Insert a number.", 5)
+
 /* Define function to return a random computer choice */
 function getComputerChoice() {
     randomNumber = Math.random()
@@ -10,60 +20,45 @@ function getComputerChoice() {
     return "scissors"
 }
 
-/* Define function to ask and return the human's choice */
-function getHumanChoice() {
-    return prompt("What do you choose buddy? Choose from either: rock, paper, scissors.");
-}
-
-/* Define function to play the game */
-function playGame(numberGamesToPlay) {
-    /* Define score variables which we will update across the games. */
-    let HumanScore = 0;
-    let computerScore = 0;
-
-    /* Define function to play one round*/
-    function playRound(humanChoice, computerChoice) {
-        /* Make human choice lower case. */
-        humanChoice = humanChoice.toLowerCase();
-        /* Ignore invalid choices */
-        if (humanChoice !== "rock" & humanChoice !== "paper" & humanChoice !== "scissors") {
-            return "You dumbass! Choose from either: rock, paper, scissors. Game ignored."
-        }
-        /* Define draws */
-        else if (humanChoice === computerChoice) {
-            return "You both chose the same buddy!"
-        }
-        /* Define player wins */
-        else if (   (humanChoice == "rock" && computerChoice == "scissors") ||
-                    (humanChoice == "scissors" && computerChoice == "paper") ||
-                    (humanChoice == "paper" && computerChoice == "rock")
-                ) {
-                    HumanScore += 1;
-                    return "You win, buddy!"
-                }
-        else {
-            computerScore += 1;
-            return "You lose, buddy!"
-        }
+/* Define function to play one round*/
+function playRound(humanChoice, computerChoice) {
+    /* Define draws */
+    if (humanChoice === computerChoice) {
+        return "This is a draw!"
     }
-
-    /* Play as many rounds as specified. */
-    for (let i = 0; i < numberGamesToPlay; i++) {
-        console.log("Ok, budy, are you ready? This is round " + i + ".")
-        const humanInput = getHumanChoice();
-        const computerInput = getComputerChoice();
-        console.log(playRound(humanInput, computerInput));
+    /* Define user wins */
+    else if (   (humanChoice == "rock" && computerChoice == "scissors") ||
+                (humanChoice == "scissors" && computerChoice == "paper") ||
+                (humanChoice == "paper" && computerChoice == "rock")
+            ) {
+                humanScore += 1
+                return "Human wins this round!"
+            }
+    else {
+        computerScore += 1
+        return "Computer wins this round!"
+    }
 }
 
-console.log("Your score is: " + HumanScore + "! The computer's score is: " + computerScore + "!")
+/* Play game if there is a user selection */
+choiceMenu.addEventListener("click", function(event){
+    /* play round with human choice as input and random computer choice */
+    let choice = event.target.id;
+    computerChoice = getComputerChoice()
+    result = playRound(humanChoice = choice, computerChoice = computerChoice);
+    /* Summarize this round verbally */
+    currentRound.textContent = "You played a round. " + "Your choice was: " + humanChoice + ". The computer's choice was: " + computerChoice + ". " + result
+    /* update scoreboard */
+    document.querySelector("#humanScore").textContent = "Human score: " + humanScore;
+    document.querySelector("#computerScore").textContent = "Computer score: " + computerScore;
 
-let scoreDifference = HumanScore - computerScore;
-if (scoreDifference == 0) { console.log("Your scores are equal. Not bad, but also certainly not good."); } else
-if (scoreDifference < 0) { console.log("You lost. Shame on you."); } else
-if (scoreDifference > 0) { console.log("You won, but I am not very impressed as it was only against a stupid computer."); } else
-{ console.log("You did not play any game! Huh! Hahaha! You are a dumbass."); };
+    // Check for winner and end game if above selected number
+    if (humanScore == numberGamesToPlay | computerScore == numberGamesToPlay) {
+      let message = humanScore == numberGamesToPlay 
+        ? "🎉 You won the game!" 
+        : "💻 Computer wins the game!";
+    currentRound.textContent = message;
+    }
+})
 
-}
 
-userChoseNoGames = prompt("How many games you want to play, duuude?")
-playGame(userChoseNoGames)
